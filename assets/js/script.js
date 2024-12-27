@@ -27,82 +27,17 @@ document.getElementById("year").innerHTML = (new Date().getFullYear());
 
 // typing animation\
 const options = {
-    strings: ['Web Developer.', 'Student.', 'Tech Enthusiast.'],
-    typeSpeed: 150,
-    backSpeed: 150,
+    strings: ['Web Developer.', 'Tech Enthusiast.', 'Fast Learner.'],
+    typeSpeed: 50,
+    backSpeed: 50,
     loop: true,
 };
 
 const typed = new Typed('.typerjs', options);
 
-// JQuery for Certificates' Section
-$('.carousel').on('touchstart', function(event){
-    const xClick = event.originalEvent.touches[0].pageX;
-    $(this).one('touchmove', function(event){
-        const xMove = event.originalEvent.touches[0].pageX;
-        const sensitivityInPx = 5;
-
-        if( Math.floor(xClick - xMove) > sensitivityInPx ){
-            $(this).carousel('next');
-        }
-        else if( Math.floor(xClick - xMove) < -sensitivityInPx ){
-            $(this).carousel('prev');
-        }
-    });
-    $(this).on('touchend', function(){
-        $(this).off('touchmove');
-    });
-});
-
 $('#contact-form').submit((e)=>{
     e.preventDefault();
 })
-
-// Send Email func, should have used fetch but jquery seems to be nice
-emailbutton = document.getElementById('sendmail');
-emailinfo = document.getElementById('form-info');
-function sendEmail() {
-    const response = grecaptcha.getResponse();
-    if (!response) {
-        emailinfo.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please verify the captcha';
-        return;
-    }
-    else {
-        emailinfo.innerHTML = '';
-    }
-    emailbutton.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Loading...';
-    emailbutton.classList.add("disabled_def");
-    const name = document.getElementById("form-name");
-    const phone = document.getElementById("form-phone");
-    const email = document.getElementById("form-email");
-    const message = document.getElementById("form-message");
-    let data = {
-        service_id: 'service_9fnrphq',
-        template_id: 'template_ie65z47',
-        user_id: 'XCfDptyHXB-M91Vj3',
-        template_params: {
-            name: name.value,
-            email: email.value,
-            phone: phone.value,
-            message: message.value,
-            'g-recaptcha-response': response
-        }
-    };
-    emailbutton.style = "cursor: pointer; pointer-events: none;";
-    $.ajax('https://api.emailjs.com/api/v1.0/email/send', {
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json'
-    }).done(function () {
-        emailbutton.innerHTML = '<i class="fa fa-check"></i> Sent';
-        emailbutton.style = "background: green";
-        setTimeout(location.reload.bind(location), 2000);
-    }).fail(function (error) {
-        emailbutton.innerHTML = '<i class="fa fa-times"></i> Failed';
-        emailbutton.style = "background: red";
-        setTimeout(location.reload.bind(location), 2000);
-        });
-}
 
 // Scroll to top
 let mybutton = document.getElementById("btn-back-to-top");
@@ -161,16 +96,3 @@ window.addEventListener('scroll', () => {
            hideProgress();
          }
 });
-
-
-// Change dark or light icon
-const faviconTag = document.getElementById("faviconid");
-const isDark = window.matchMedia("(prefers-color-scheme: dark)");
-const changeFavicon = () => {
-    if (isDark.matches) {
-      faviconTag.href = "assets/image/light_logo.svg";
-    } else {
-      faviconTag.href = "assets/image/dark_logo.svg";
-    }
-  };
-setInterval(changeFavicon, 1000);
